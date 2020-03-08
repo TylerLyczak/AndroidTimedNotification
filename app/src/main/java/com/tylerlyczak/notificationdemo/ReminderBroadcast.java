@@ -1,6 +1,7 @@
 package com.tylerlyczak.notificationdemo;
 
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -16,11 +17,16 @@ public class ReminderBroadcast extends BroadcastReceiver {
         Bundle bundle = intent.getExtras();
         String desc = bundle.getString("Description");
 
+        Intent onClickIntent = new Intent(context, MainActivity.class);
+        PendingIntent onClickPending = PendingIntent.getActivity(context, 0, onClickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         // Builds the notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "tester")
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle("Reminding lol")
                 .setContentText(desc)
+                .setAutoCancel(true)
+                .setContentIntent(onClickPending)
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
 
         // Sets the notification to be made
